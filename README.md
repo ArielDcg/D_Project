@@ -12,7 +12,7 @@
 
 ## Descripción General del Proyecto
 
-Este proyecto implementa una calculadora completa basada en hardware digital, diseñada para ser implementada en FPGAs (Tang Nano 20K y Tang Primer 25K). El sistema utiliza un procesador RISC-V FemtoRV32 y múltiples periféricos especializados para operaciones aritméticas.
+Este proyecto implementa una calculadora completa basada en hardware digital, diseñada para ser implementada en FPGA Tang Primer 25K. El sistema utiliza un procesador RISC-V FemtoRV32 y múltiples periféricos especializados para operaciones aritméticas.
 
 ### Arquitectura del Sistema
 
@@ -27,7 +27,7 @@ El sistema está compuesto por:
   - Conversor BIN ↔ BCD
 
 ### Hardware Objetivo
-- **FPGA**: Sipeed Tang Primer 25K (Efinix Trion T20)
+- **FPGA**: Sipeed Tang Primer 25K 
 - **Frecuencia de reloj**: 50 MHz
 - **Comunicación**: UART 115200 baudios
 
@@ -188,13 +188,9 @@ El módulo periférico proporciona interfaz de registros mapeados en memoria par
 
 ![Simulación Multiplicador](ruta/a/imagen/simulacion_mult.png)
 
-> **Nota**: Agregar capturas de pantalla de las simulaciones realizadas con GTKWave o herramienta similar.
-
 ### Videos de Implementación
 
 - [Video demostrando funcionamiento en FPGA](#)
-
-> **Nota**: Agregar enlaces a videos mostrando el funcionamiento del multiplicador en la FPGA.
 
 ---
 
@@ -355,8 +351,6 @@ endmodule
 
 ![Simulación Divisor](ruta/a/imagen/simulacion_div.png)
 
-> **Nota**: Agregar capturas de pantalla de las simulaciones del divisor.
-
 ### Videos de Implementación
 
 - [Video demostrando división en FPGA](#)
@@ -453,8 +447,6 @@ endmodule
 ### Simulaciones
 
 ![Simulación SQRT](ruta/a/imagen/simulacion_sqrt.png)
-
-> **Nota**: Agregar capturas de simulación de raíz cuadrada.
 
 ### Videos de Implementación
 
@@ -568,8 +560,6 @@ endmodule
 
 ![Simulación BCD2BIN](Calculadora/modulos/bcd2bin/sims.pdf)
 
-> **Nota**: Ver archivo `sims.pdf` para simulaciones detalladas.
-
 ### Videos de Implementación
 
 - [Video demostrando BCD2BIN en FPGA](#)
@@ -682,8 +672,6 @@ endmodule
 
 ![Simulación BIN2BCD](Calculadora/modulos/bin2bcd/sims.pdf)
 
-> **Nota**: Ver archivo `sims.pdf` para simulaciones detalladas.
-
 ### Videos de Implementación
 
 - [Video demostrando BIN2BCD en FPGA](#)
@@ -788,8 +776,6 @@ make -f Makefile flash
 ### Simulaciones del Sistema
 
 ![Simulación SOC](ruta/a/simulacion_soc.png)
-
-> **Nota**: Agregar capturas de simulación del sistema completo.
 
 ### Videos de Implementación Final
 
