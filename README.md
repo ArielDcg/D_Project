@@ -4,8 +4,8 @@
 
 | Nombre Completo | Identificación SIA |
 |----------------|-------------------|
-| Kevin Santiago Aldana Muñoz. | 1014979769 |
-| [Nombre 2] | [ID 2] |
+| Kevin Santiago Aldana Muñoz| 1014979769 |
+| Emmanuel Bonilla Mitrotti | 1109543118 |
 | Ariel Giovanni Cardenas Santisteban | 7494038 |
 
 ---
