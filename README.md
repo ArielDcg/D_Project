@@ -178,22 +178,6 @@ endmodule
 
 **Ubicación**: [`Calculadora/modulos/mult/mult.v`](Calculadora/modulos/mult/mult.v)
 
-#### Periférico: perip_mult.v
-
-El módulo periférico proporciona interfaz de registros mapeados en memoria para el CPU.
-
-**Ubicación**: [`Calculadora/modulos/mult/perip_mult.v`](Calculadora/modulos/mult/perip_mult.v)
-
-### Simulaciones
-
-![Simulación Multiplicador](ruta/a/imagen/simulacion_mult.png)
-
-### Videos de Implementación
-
-- [Video demostrando funcionamiento en FPGA](#)
-
----
-
 ## 2. Divisor de 16 bits
 
 ### Especificaciones Iniciales
@@ -347,16 +331,6 @@ endmodule
 
 **Ubicación**: [`Calculadora/modulos/div/div.v`](Calculadora/modulos/div/div.v)
 
-### Simulaciones
-
-![Simulación Divisor](ruta/a/imagen/simulacion_div.png)
-
-### Videos de Implementación
-
-- [Video demostrando división en FPGA](#)
-
----
-
 ## 3. Raíz Cuadrada de 16 bits
 
 ### Especificaciones Iniciales
@@ -443,16 +417,6 @@ endmodule
 **Ubicación**: [`Calculadora/modulos/sqrt_ASM/sqrt.v`](Calculadora/modulos/sqrt_ASM/sqrt.v)
 
 **Control**: [`Calculadora/modulos/sqrt_ASM/control.v`](Calculadora/modulos/sqrt_ASM/control.v)
-
-### Simulaciones
-
-![Simulación SQRT](ruta/a/imagen/simulacion_sqrt.png)
-
-### Videos de Implementación
-
-- [Video demostrando SQRT en FPGA](#)
-
----
 
 ## 4. Conversor BCD a Binario
 
@@ -556,16 +520,6 @@ endmodule
 
 **Control**: [`Calculadora/modulos/bcd2bin/ctrl_b2b.v`](Calculadora/modulos/bcd2bin/ctrl_b2b.v)
 
-### Simulaciones
-
-![Simulación BCD2BIN](Calculadora/modulos/bcd2bin/sims.pdf)
-
-### Videos de Implementación
-
-- [Video demostrando BCD2BIN en FPGA](#)
-
----
-
 ## 5. Conversor Binario a BCD
 
 ### Especificaciones Iniciales
@@ -668,16 +622,6 @@ endmodule
 
 **Ubicación**: [`Calculadora/modulos/bin2bcd/bin2bcd.v`](Calculadora/modulos/bin2bcd/bin2bcd.v)
 
-### Simulaciones
-
-![Simulación BIN2BCD](Calculadora/modulos/bin2bcd/sims.pdf)
-
-### Videos de Implementación
-
-- [Video demostrando BIN2BCD en FPGA](#)
-
----
-
 ## 6. Calculadora Completa (SOC)
 
 ### Especificaciones Iniciales
@@ -761,29 +705,6 @@ endmodule
 | UART | 0x1400_0000 | TX, RX, status |
 | BCD2BIN | 0x1800_0000 | A, init, result, done |
 
-### Compilación y Síntesis
-
-El proyecto utiliza el toolchain de Efinix para síntesis e implementación:
-
-```bash
-# Síntesis
-make -f Makefile
-
-# Programación
-make -f Makefile flash
-```
-
-### Simulaciones del Sistema
-
-![Simulación SOC](ruta/a/simulacion_soc.png)
-
-### Videos de Implementación Final
-
-- [Video demostrando calculadora completa en FPGA](#)
-- [Video demostrando comunicación UART](#)
-
----
-
 ## Herramientas Utilizadas
 
 - **Síntesis**: Efinix Efinity 2023.2
@@ -818,41 +739,6 @@ Digital_P/
 └── README.md              # Este archivo
 ```
 
-## Cómo Usar
-
-### Requisitos Previos
-
-1. Instalar Efinix Efinity Toolchain
-2. Instalar Icarus Verilog (para simulación)
-3. Instalar GTKWave (para visualización)
-4. Toolchain RISC-V GCC (para compilar firmware)
-
-### Simulación
-
-Para simular un módulo individual:
-
-```bash
-cd Calculadora/modulos/mult
-make sim
-gtkwave mult.gtkw
-```
-
-### Síntesis y Programación
-
-```bash
-cd Calculadora
-make
-make program
-```
-
-### Comunicación UART
-
-Usar un terminal serial a 115200 baudios:
-
-```bash
-picocom -b 115200 /dev/ttyUSB0
-```
-
 ## Referencias
 
 - [FemtoRV32 GitHub](https://github.com/BrunoLevy/learn-fpga)
@@ -866,5 +752,3 @@ picocom -b 115200 /dev/ttyUSB0
 Este proyecto es de carácter académico para la Universidad Nacional de Colombia.
 
 ---
-
-**Última actualización**: Noviembre 2024
