@@ -1,8 +1,3 @@
-// Módulo: Mouse_paint
-// Descripción: Maneja el cursor del mouse y pinta cuando se presiona click izquierdo
-// - Cursor negro que se mueve sin dejar rastro (solo muestra posición actual)
-// - Al presionar click izquierdo, pinta permanentemente
-// NOTA: Versión simplificada sin multiplicador (usa shift porque IMG_WIDTH = 64 = 2^6)
 module ctrl_paint #(
     parameter X_MAX = 63,         
     parameter Y_MAX = 63,         
@@ -14,7 +9,7 @@ module ctrl_paint #(
     input              reset,      
     input signed [8:0] PS2_Xdata,
     input signed [8:0] PS2_Ydata,
-    input              btn_left,     // Botón izquierdo para pintar
+    input              btn_left,   
     input  [11:0]      b_rdata0,
     input  [11:0]      b_rdata1,
     output reg         wr0,
@@ -35,14 +30,12 @@ module ctrl_paint #(
     reg        mem_anterior;
     reg        painting;
     
-    // Cálculo de posición limitada
     reg [5:0] x_fin;
     reg [5:0] y_fin;
     reg [5:0] y_offset;
     reg       sel_mem_actual;
     
     always @(*) begin
-        // Limitar X a [0, X_MAX]
         if (PS2_Xdata > X_MAX)
             x_fin = X_MAX[5:0];
         else if (PS2_Xdata < 0)
@@ -50,7 +43,6 @@ module ctrl_paint #(
         else
             x_fin = PS2_Xdata[5:0];
         
-        // Limitar Y a [0, Y_MAX]
         if (PS2_Ydata > Y_MAX)
             y_fin = Y_MAX[5:0];
         else if (PS2_Ydata < 0)
@@ -58,25 +50,18 @@ module ctrl_paint #(
         else
             y_fin = PS2_Ydata[5:0];
         
-        // Selección de memoria (mitad superior/inferior)
         sel_mem_actual = (y_fin > IMG_DIV);
         
-        // Offset de Y para la memoria seleccionada
         if (sel_mem_actual)
-            y_offset = y_fin - 6'd33;  // IMG_DIV + 1 = 33
+            y_offset = y_fin - 6'd33; 
         else
             y_offset = y_fin;
     end
-    
-    // Dirección de memoria: dir = y_offset * 64 + x_fin = (y_offset << 6) | x_fin
     wire [11:0] dir_actual = {y_offset, x_fin};
     
-    // Detectar movimiento solo si hay cambio de posición
     wire movimiento = (dir_actual != dir_anterior) || (sel_mem_actual != mem_anterior);
     
-    // Máquina de estados
     always @(posedge clk) begin
-        // Valores por defecto
         wr0 <= 1'b0;
         wr1 <= 1'b0;
         paint_permanent <= 1'b0;
@@ -96,7 +81,6 @@ module ctrl_paint #(
                 end
                 
                 RESTORE: begin
-                    // Restaurar posición anterior con color original
                     address <= dir_anterior;
                     if (mem_anterior == 1'b0) begin
                         wdata <= b_rdata0;
@@ -106,7 +90,6 @@ module ctrl_paint #(
                         wr1 <= 1'b1;
                     end
                     
-                    // Siguiente estado según si estamos pintando
                     if (painting)
                         estado <= PAINT_PERM;
                     else
@@ -114,7 +97,6 @@ module ctrl_paint #(
                 end
                 
                 PAINT_PERM: begin
-                    // Pintar permanentemente (también en backup)
                     address <= dir_actual;
                     wdata <= PAINT_COLOR;
                     paint_permanent <= 1'b1;
@@ -124,7 +106,6 @@ module ctrl_paint #(
                     else
                         wr1 <= 1'b1;
                     
-                    // Actualizar posición anterior
                     dir_anterior <= dir_actual;
                     mem_anterior <= sel_mem_actual;
                     
@@ -132,7 +113,6 @@ module ctrl_paint #(
                 end
                 
                 PAINT_CURSOR: begin
-                    // Pintar cursor temporal
                     address <= dir_actual;
                     wdata <= CURSOR_COLOR;
                     
@@ -140,8 +120,7 @@ module ctrl_paint #(
                         wr0 <= 1'b1;
                     else
                         wr1 <= 1'b1;
-                    
-                    // Actualizar posición anterior
+                
                     dir_anterior <= dir_actual;
                     mem_anterior <= sel_mem_actual;
                     
