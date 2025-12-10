@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Module name="paint_top" Register="18" Alu="24" Lut="19" T_Register="239(18)" T_Alu="70(24)" T_Lut="281(19)" T_Bsram="8(0)">
- <SubModule name="uart0" Register="61" Lut="59" T_Register="105(61)" T_Alu="15(0)" T_Lut="89(59)">
+<Module name="paint_top" Register="18" Alu="24" Lut="19" T_Register="241(18)" T_Alu="69(24)" T_Lut="293(19)" T_Bsram="8(0)">
+ <SubModule name="uart0" Register="64" Lut="90" T_Register="108(64)" T_Alu="15(0)" T_Lut="120(90)">
   <SubModule name="uart_inst" Register="44" Alu="15" Lut="30" T_Register="44(44)" T_Alu="15(15)" T_Lut="30(30)"/>
  </SubModule>
- <SubModule name="paint0" Register="64" Alu="12" Lut="99" T_Register="64(64)" T_Alu="12(12)" T_Lut="99(99)"/>
- <SubModule name="mem0" Register="14" Lut="19" Bsram="8" T_Register="14(14)" T_Lut="19(19)" T_Bsram="8(8)"/>
+ <SubModule name="paint0" Register="63" Alu="11" Lut="72" T_Register="63(63)" T_Alu="11(11)" T_Lut="72(72)"/>
+ <SubModule name="mem0" Register="14" Lut="28" Bsram="8" T_Register="14(14)" T_Lut="28(28)" T_Bsram="8(8)"/>
  <SubModule name="count_row" Register="5" Alu="4" Lut="4" T_Register="5(5)" T_Alu="4(4)" T_Lut="4(4)"/>
  <SubModule name="count_col" Register="6" Alu="5" Lut="2" T_Register="6(6)" T_Alu="5(5)" T_Lut="2(2)"/>
  <SubModule name="cnt_delay" Register="11" Alu="10" Lut="2" T_Register="11(11)" T_Alu="10(10)" T_Lut="2(2)"/>
  <SubModule name="count_index" Register="2" Lut="2" T_Register="2(2)" T_Lut="2(2)"/>
  <SubModule name="lsr0" Register="10" T_Register="10(10)"/>
  <SubModule name="mux0" Lut="12" T_Lut="12(12)"/>
- <SubModule name="ctrl0" Register="4" Lut="33" T_Register="4(4)" T_Lut="33(33)"/>
+ <SubModule name="ctrl0" Register="4" Lut="32" T_Register="4(4)" T_Lut="32(32)"/>
 </Module>

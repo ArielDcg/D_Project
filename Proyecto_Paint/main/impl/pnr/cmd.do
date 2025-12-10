@@ -1,9 +1,9 @@
--d /home/arielo/repos/SD/Proyecto_Paint/main/impl/gwsynthesis/project.vg
+-d /home/arielo/D_Project/Proyecto_Paint/main/impl/gwsynthesis/project.vg
 -p GW5A-25A-MBGA121N-1
 -pn GW5A-LV25MG121NC1/I0
--cst /home/arielo/repos/SD/Proyecto_Paint/main/constraints/sipeed_tang_primer_25k.cst
--cfg /home/arielo/repos/SD/Proyecto_Paint/main/impl/pnr/device.cfg
--sdc /home/arielo/repos/SD/Proyecto_Paint/main/constraints/sipeed_tang_primer_25k.sdc
+-cst /home/arielo/D_Project/Proyecto_Paint/main/constraints/sipeed_tang_primer_25k.cst
+-cfg /home/arielo/D_Project/Proyecto_Paint/main/impl/pnr/device.cfg
+-sdc /home/arielo/D_Project/Proyecto_Paint/main/constraints/sipeed_tang_primer_25k.sdc
 -bit
 -tr
 -ph

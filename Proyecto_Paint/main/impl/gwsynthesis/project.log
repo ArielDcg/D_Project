@@ -1,43 +1,43 @@
 GowinSynthesis start
 Running parser ...
-Analyzing Verilog file '/home/arielo/repos/SD/Proyecto_Paint/main/paint_top.v'
-Analyzing Verilog file '/home/arielo/repos/SD/Proyecto_Paint/main/mouse_rx.v'
-Analyzing Verilog file '/home/arielo/repos/SD/Proyecto_Paint/main/uart.v'
-Analyzing Verilog file '/home/arielo/repos/SD/Proyecto_Paint/main/count.v'
-Analyzing Verilog file '/home/arielo/repos/SD/Proyecto_Paint/main/ctrl_panel.v'
-Analyzing Verilog file '/home/arielo/repos/SD/Proyecto_Paint/main/memory.v'
-Analyzing Verilog file '/home/arielo/repos/SD/Proyecto_Paint/main/comp.v'
-Analyzing Verilog file '/home/arielo/repos/SD/Proyecto_Paint/main/lsr.v'
-Analyzing Verilog file '/home/arielo/repos/SD/Proyecto_Paint/main/mux.v'
-Analyzing Verilog file '/home/arielo/repos/SD/Proyecto_Paint/main/ctrl_paint.v'
-WARN  (EX3073) : Port 'zero' remains unconnected for this instance("/home/arielo/repos/SD/Proyecto_Paint/main/paint_top.v":118)
-Compiling module 'paint_top'("/home/arielo/repos/SD/Proyecto_Paint/main/paint_top.v":1)
-WARN  (EX3791) : Expression size 6 truncated to fit in target size 5("/home/arielo/repos/SD/Proyecto_Paint/main/paint_top.v":56)
-Compiling module 'mouse_rx(BAUD=19200)'("/home/arielo/repos/SD/Proyecto_Paint/main/mouse_rx.v":1)
-Compiling module 'uart(baud=19200)'("/home/arielo/repos/SD/Proyecto_Paint/main/uart.v":1)
-WARN  (EX3791) : Expression size 32 truncated to fit in target size 16("/home/arielo/repos/SD/Proyecto_Paint/main/uart.v":28)
-WARN  (EX3791) : Expression size 5 truncated to fit in target size 4("/home/arielo/repos/SD/Proyecto_Paint/main/uart.v":68)
-WARN  (EX3791) : Expression size 5 truncated to fit in target size 4("/home/arielo/repos/SD/Proyecto_Paint/main/uart.v":71)
-WARN  (EX3791) : Expression size 5 truncated to fit in target size 4("/home/arielo/repos/SD/Proyecto_Paint/main/uart.v":112)
-WARN  (EX3791) : Expression size 5 truncated to fit in target size 4("/home/arielo/repos/SD/Proyecto_Paint/main/uart.v":115)
-Compiling module 'ctrl_paint'("/home/arielo/repos/SD/Proyecto_Paint/main/ctrl_paint.v":6)
-Compiling module 'memory(width=10)'("/home/arielo/repos/SD/Proyecto_Paint/main/memory.v":1)
-Extracting RAM for identifier 'MEM0'("/home/arielo/repos/SD/Proyecto_Paint/main/memory.v":18)
-Extracting RAM for identifier 'MEM1'("/home/arielo/repos/SD/Proyecto_Paint/main/memory.v":19)
-Extracting RAM for identifier 'B_MEM0'("/home/arielo/repos/SD/Proyecto_Paint/main/memory.v":20)
-Extracting RAM for identifier 'B_MEM1'("/home/arielo/repos/SD/Proyecto_Paint/main/memory.v":21)
-Compiling module 'count(width=4)'("/home/arielo/repos/SD/Proyecto_Paint/main/count.v":1)
-WARN  (EX3791) : Expression size 6 truncated to fit in target size 5("/home/arielo/repos/SD/Proyecto_Paint/main/count.v":15)
-Compiling module 'count'("/home/arielo/repos/SD/Proyecto_Paint/main/count.v":1)
-WARN  (EX3791) : Expression size 7 truncated to fit in target size 6("/home/arielo/repos/SD/Proyecto_Paint/main/count.v":15)
-Compiling module 'count(width=10)'("/home/arielo/repos/SD/Proyecto_Paint/main/count.v":1)
-WARN  (EX3791) : Expression size 12 truncated to fit in target size 11("/home/arielo/repos/SD/Proyecto_Paint/main/count.v":15)
-Compiling module 'count(width=1)'("/home/arielo/repos/SD/Proyecto_Paint/main/count.v":1)
-WARN  (EX3791) : Expression size 3 truncated to fit in target size 2("/home/arielo/repos/SD/Proyecto_Paint/main/count.v":15)
-Compiling module 'lsr_led(init_value=2)'("/home/arielo/repos/SD/Proyecto_Paint/main/lsr.v":1)
-Compiling module 'comp_4k'("/home/arielo/repos/SD/Proyecto_Paint/main/comp.v":1)
-Compiling module 'mux'("/home/arielo/repos/SD/Proyecto_Paint/main/mux.v":1)
-Compiling module 'ctrl_panel'("/home/arielo/repos/SD/Proyecto_Paint/main/ctrl_panel.v":1)
+Analyzing Verilog file '/home/arielo/D_Project/Proyecto_Paint/main/paint_top.v'
+Analyzing Verilog file '/home/arielo/D_Project/Proyecto_Paint/main/mouse_rx.v'
+Analyzing Verilog file '/home/arielo/D_Project/Proyecto_Paint/main/uart.v'
+Analyzing Verilog file '/home/arielo/D_Project/Proyecto_Paint/main/count.v'
+Analyzing Verilog file '/home/arielo/D_Project/Proyecto_Paint/main/ctrl_panel.v'
+Analyzing Verilog file '/home/arielo/D_Project/Proyecto_Paint/main/memory.v'
+Analyzing Verilog file '/home/arielo/D_Project/Proyecto_Paint/main/comp.v'
+Analyzing Verilog file '/home/arielo/D_Project/Proyecto_Paint/main/lsr.v'
+Analyzing Verilog file '/home/arielo/D_Project/Proyecto_Paint/main/mux.v'
+Analyzing Verilog file '/home/arielo/D_Project/Proyecto_Paint/main/ctrl_paint.v'
+WARN  (EX3073) : Port 'zero' remains unconnected for this instance("/home/arielo/D_Project/Proyecto_Paint/main/paint_top.v":118)
+Compiling module 'paint_top'("/home/arielo/D_Project/Proyecto_Paint/main/paint_top.v":1)
+WARN  (EX3791) : Expression size 6 truncated to fit in target size 5("/home/arielo/D_Project/Proyecto_Paint/main/paint_top.v":56)
+Compiling module 'mouse_rx'("/home/arielo/D_Project/Proyecto_Paint/main/mouse_rx.v":1)
+Compiling module 'uart'("/home/arielo/D_Project/Proyecto_Paint/main/uart.v":1)
+WARN  (EX3791) : Expression size 32 truncated to fit in target size 16("/home/arielo/D_Project/Proyecto_Paint/main/uart.v":28)
+WARN  (EX3791) : Expression size 5 truncated to fit in target size 4("/home/arielo/D_Project/Proyecto_Paint/main/uart.v":68)
+WARN  (EX3791) : Expression size 5 truncated to fit in target size 4("/home/arielo/D_Project/Proyecto_Paint/main/uart.v":71)
+WARN  (EX3791) : Expression size 5 truncated to fit in target size 4("/home/arielo/D_Project/Proyecto_Paint/main/uart.v":112)
+WARN  (EX3791) : Expression size 5 truncated to fit in target size 4("/home/arielo/D_Project/Proyecto_Paint/main/uart.v":115)
+Compiling module 'ctrl_paint'("/home/arielo/D_Project/Proyecto_Paint/main/ctrl_paint.v":1)
+Compiling module 'memory(width=10)'("/home/arielo/D_Project/Proyecto_Paint/main/memory.v":1)
+Extracting RAM for identifier 'MEM0'("/home/arielo/D_Project/Proyecto_Paint/main/memory.v":18)
+Extracting RAM for identifier 'MEM1'("/home/arielo/D_Project/Proyecto_Paint/main/memory.v":19)
+Extracting RAM for identifier 'B_MEM0'("/home/arielo/D_Project/Proyecto_Paint/main/memory.v":20)
+Extracting RAM for identifier 'B_MEM1'("/home/arielo/D_Project/Proyecto_Paint/main/memory.v":21)
+Compiling module 'count(width=4)'("/home/arielo/D_Project/Proyecto_Paint/main/count.v":1)
+WARN  (EX3791) : Expression size 6 truncated to fit in target size 5("/home/arielo/D_Project/Proyecto_Paint/main/count.v":15)
+Compiling module 'count'("/home/arielo/D_Project/Proyecto_Paint/main/count.v":1)
+WARN  (EX3791) : Expression size 7 truncated to fit in target size 6("/home/arielo/D_Project/Proyecto_Paint/main/count.v":15)
+Compiling module 'count(width=10)'("/home/arielo/D_Project/Proyecto_Paint/main/count.v":1)
+WARN  (EX3791) : Expression size 12 truncated to fit in target size 11("/home/arielo/D_Project/Proyecto_Paint/main/count.v":15)
+Compiling module 'count(width=1)'("/home/arielo/D_Project/Proyecto_Paint/main/count.v":1)
+WARN  (EX3791) : Expression size 3 truncated to fit in target size 2("/home/arielo/D_Project/Proyecto_Paint/main/count.v":15)
+Compiling module 'lsr_led(init_value=2)'("/home/arielo/D_Project/Proyecto_Paint/main/lsr.v":1)
+Compiling module 'comp_4k'("/home/arielo/D_Project/Proyecto_Paint/main/comp.v":1)
+Compiling module 'mux'("/home/arielo/D_Project/Proyecto_Paint/main/mux.v":1)
+Compiling module 'ctrl_panel'("/home/arielo/D_Project/Proyecto_Paint/main/ctrl_panel.v":1)
 NOTE  (EX0101) : Current top module is "paint_top"
 [5%] Running netlist conversion ...
 Running device independent optimization ...
@@ -55,7 +55,7 @@ Running technical mapping ...
 [75%] Tech-Mapping Phase 2 completed
 [80%] Tech-Mapping Phase 3 completed
 [90%] Tech-Mapping Phase 4 completed
-WARN  (NL0002) : The module "comp_4k" instantiated to "comp0" is swept in optimizing("/home/arielo/repos/SD/Proyecto_Paint/main/paint_top.v":122)
-[95%] Generate netlist file "/home/arielo/repos/SD/Proyecto_Paint/main/impl/gwsynthesis/project.vg" completed
-[100%] Generate report file "/home/arielo/repos/SD/Proyecto_Paint/main/impl/gwsynthesis/project_syn.rpt.html" completed
+WARN  (NL0002) : The module "comp_4k" instantiated to "comp0" is swept in optimizing("/home/arielo/D_Project/Proyecto_Paint/main/paint_top.v":122)
+[95%] Generate netlist file "/home/arielo/D_Project/Proyecto_Paint/main/impl/gwsynthesis/project.vg" completed
+[100%] Generate report file "/home/arielo/D_Project/Proyecto_Paint/main/impl/gwsynthesis/project_syn.rpt.html" completed
 GowinSynthesis finish

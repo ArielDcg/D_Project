@@ -57,7 +57,7 @@ always @(posedge clk) begin
   end
 end
 
-mouse_rx #(.CLK_FREQ(50000000), .BAUD(19200)) uart0 (
+mouse_rx #(.CLK_FREQ(50000000), .BAUD(9600)) uart0 (
   .clk(clk), .rst_n(~rst), .rx_pin(uart_rx),
   .btn_left(btn_left), .btn_right(btn_right), .btn_middle(btn_middle),
   .delta_x(uart_delta_x), .delta_y(uart_delta_y), .data_valid(data_valid)
@@ -69,7 +69,7 @@ localparam signed [8:0] POS_MAX = 9'sd63;
 wire signed [8:0] delta_x_signed = {{1{uart_delta_x[7]}}, uart_delta_x};
 wire signed [8:0] delta_y_signed = {{1{uart_delta_y[7]}}, uart_delta_y};
 wire signed [9:0] new_x = pos_x + delta_x_signed;
-wire signed [9:0] new_y = pos_y - delta_y_signed;
+wire signed [9:0] new_y = pos_y + delta_y_signed;
 
 always @(posedge clk) begin
   if (rst) begin
@@ -92,7 +92,7 @@ always @(posedge clk) begin
   end
 end
 
-ctrl_paint #(.X_MAX(63), .Y_MAX(63), .IMG_DIV(32), .CURSOR_COLOR(12'h000), .PAINT_COLOR(12'hF00)) paint0 (
+ctrl_paint #(.X_MAX(63), .Y_MAX(63), .NUM_COLS(64), .HALF_ROWS(32), .CURSOR_COLOR(12'h000), .PAINT_COLOR(12'hF00)) paint0 (
   .clk(clk), .reset(rst),
   .PS2_Xdata(pos_x), .PS2_Ydata(pos_y), .btn_left(btn_left),
   .b_rdata0(b_rdata0), .b_rdata1(b_rdata1),

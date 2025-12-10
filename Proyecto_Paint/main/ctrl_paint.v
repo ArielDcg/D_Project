@@ -1,7 +1,8 @@
 module ctrl_paint #(
     parameter X_MAX = 63,         
     parameter Y_MAX = 63,         
-    parameter IMG_DIV = 32,       
+    parameter NUM_COLS = 64,      // Número de columnas
+    parameter HALF_ROWS = 32,     // Mitad de filas (división de memoria)
     parameter CURSOR_COLOR = 12'h000,  // Color del cursor (negro)
     parameter PAINT_COLOR = 12'hF00    // Color de pintado (rojo)
 )(
@@ -26,16 +27,18 @@ module ctrl_paint #(
     localparam PAINT_CURSOR = 3'd3;
     
     reg [2:0] estado;
-    reg [11:0] dir_anterior;
+    reg [10:0] dir_anterior;  // 11 bits para direccionar 32*64 = 2048 posiciones
     reg        mem_anterior;
     reg        painting;
     
+    // Coordenadas limitadas al rango válido
     reg [5:0] x_fin;
     reg [5:0] y_fin;
-    reg [5:0] y_offset;
-    reg       sel_mem_actual;
+    reg [4:0] y_offset;      // Offset dentro de cada mitad (0-31)
+    reg       sel_mem_actual; // 0 = memoria superior (filas 0-31), 1 = memoria inferior (filas 32-63)
     
     always @(*) begin
+        // Limitar X al rango [0, X_MAX]
         if (PS2_Xdata > X_MAX)
             x_fin = X_MAX[5:0];
         else if (PS2_Xdata < 0)
@@ -43,6 +46,7 @@ module ctrl_paint #(
         else
             x_fin = PS2_Xdata[5:0];
         
+        // Limitar Y al rango [0, Y_MAX]
         if (PS2_Ydata > Y_MAX)
             y_fin = Y_MAX[5:0];
         else if (PS2_Ydata < 0)
@@ -50,14 +54,20 @@ module ctrl_paint #(
         else
             y_fin = PS2_Ydata[5:0];
         
-        sel_mem_actual = (y_fin > IMG_DIV);
+        // Determinar qué memoria usar basado en la fila
+        // Filas 0-31 -> MEM0, Filas 32-63 -> MEM1
+        sel_mem_actual = (y_fin >= HALF_ROWS);
         
+        // Calcular offset dentro de la mitad correspondiente
         if (sel_mem_actual)
-            y_offset = y_fin - 6'd33; 
+            y_offset = y_fin[4:0];  // filas 32-63: bits [4:0] dan 0-31 automáticamente
         else
-            y_offset = y_fin;
+            y_offset = y_fin[4:0];  // filas 0-31 directas en MEM0
     end
-    wire [11:0] dir_actual = {y_offset, x_fin};
+    
+    // Dirección lineal: y_offset * NUM_COLS + x_fin
+    // Para 64 columnas: y_offset * 64 + x_fin = {y_offset, 6'b0} + x_fin
+    wire [10:0] dir_actual = {y_offset, x_fin};
     
     wire movimiento = (dir_actual != dir_anterior) || (sel_mem_actual != mem_anterior);
     
@@ -68,7 +78,7 @@ module ctrl_paint #(
         
         if (reset) begin
             estado <= IDLE;
-            dir_anterior <= 12'd0;
+            dir_anterior <= 11'd0;
             mem_anterior <= 1'b0;
             painting <= 1'b0;
         end else begin
@@ -81,7 +91,7 @@ module ctrl_paint #(
                 end
                 
                 RESTORE: begin
-                    address <= dir_anterior;
+                    address <= {1'b0, dir_anterior};
                     if (mem_anterior == 1'b0) begin
                         wdata <= b_rdata0;
                         wr0 <= 1'b1;
@@ -97,7 +107,7 @@ module ctrl_paint #(
                 end
                 
                 PAINT_PERM: begin
-                    address <= dir_actual;
+                    address <= {1'b0, dir_actual};
                     wdata <= PAINT_COLOR;
                     paint_permanent <= 1'b1;
                     
@@ -113,7 +123,7 @@ module ctrl_paint #(
                 end
                 
                 PAINT_CURSOR: begin
-                    address <= dir_actual;
+                    address <= {1'b0, dir_actual};
                     wdata <= CURSOR_COLOR;
                     
                     if (sel_mem_actual == 1'b0)
