@@ -1,0 +1,33 @@
+# ======================
+# Gowin IDE - Archivos de síntesis
+# ======================
+
+# Carpeta completa de implementación (síntesis y place-and-route)
+main/impl/
+
+# Alternativamente, si prefieres ignorar archivos específicos:
+# main/impl/gwsynthesis/
+# main/impl/pnr/
+
+# Archivos de proyecto Gowin
+*.gprj.user
+
+# Logs
+*.log
+
+# Archivos temporales
+*.bak
+*~
+
+# ======================
+# Otros artefactos comunes
+# ======================
+
+# macOS
+.DS_Store
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
