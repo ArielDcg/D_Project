@@ -173,7 +173,7 @@ Datapath Lógica de Pantalla
 
 Diagrama de estados Lógica de Pantalla
 
-![Diagrama de estados PS2_TO_SCREEN](Proyecto_Paint/img/Captura de pantalla 2025-12-10 223924.png)
+![Diagrama de estados PS2_TO_SCREEN](Proyecto_Paint/img/Captura%20de%20pantalla%202025-12-10%20223924.png)
 
 ### 5. Conexión FPGA a pantalla (Lectura de memoria)
 
