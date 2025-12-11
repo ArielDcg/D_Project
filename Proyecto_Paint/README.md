@@ -144,12 +144,17 @@ Este módulo superior gestiona la recepción de paquetes completos de 3 bytes pr
 
 Flujo Arduino-FPGA
 
-![UART ARDUINO - FPGA](https://github.com/user-attachments/assets/03e398d7-dab6-4472-b370-97629a7e0514)
+![UART ARDUINO - FPGA](<img width="1774" height="4189" alt="Blank diagram (2)" src="https://github.com/user-attachments/assets/b429a505-11bd-4611-87e2-851e54cfc7c7" />)
 
 
 Datapath Arduino-FPGA
 
 ![Data Path UART ARDUINO](https://github.com/user-attachments/assets/5125b8cf-ae13-48ef-ae73-eadaf5fbb809)
+
+Diagrama de estados Arduino-FPGA
+
+
+<img width="1261" height="542" alt="Diagrama de estados UART-Arduino" src="https://github.com/user-attachments/assets/c2bce290-ab1d-46e0-baa5-612f6f40ef66" />
 
 
 ### 4. Controlador FPGA a Pantalla (Lógica de Pintado)
