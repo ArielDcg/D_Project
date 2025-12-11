@@ -25,10 +25,7 @@ void setup() {
   Serial.println("Mouse PS2 inicializado con sync");
 }
 
-// Enviar trama completa de 4 bytes: SYNC + BTN + DX + DY
-// Enviar byte por byte con pequeño delay para asegurar sincronización
 void sendPacket(uint8_t btn, int8_t dx, int8_t dy) {
-  // Debug: mostrar bytes exactos que se envían
   Serial.print("TX: SYNC=0xAA BTN=0x");
   Serial.print(btn, HEX);
   Serial.print(" DX=0x");
@@ -36,7 +33,6 @@ void sendPacket(uint8_t btn, int8_t dx, int8_t dy) {
   Serial.print(" DY=0x");
   Serial.println((uint8_t)dy, HEX);
   
-  // Enviar en orden: SYNC, BTN, DX, DY
   fpgaSerial.write(SYNC_BYTE);
   fpgaSerial.write(btn);
   fpgaSerial.write((uint8_t)dx);
@@ -48,22 +44,18 @@ void loop() {
   
   buttons = (uint8_t)(data.status & 0x07);
   
-  // Obtener el movimiento directamente del mouse
   int raw_x = data.position.x;
   int raw_y = data.position.y;
   
-  // Acumular movimiento
   accum_x += raw_x;
   accum_y += raw_y;
   
   int scaled_x = accum_x / SCALE_FACTOR;
   int scaled_y = accum_y / SCALE_FACTOR;
   
-  // Mantener residuo
   if (scaled_x != 0) accum_x = accum_x % SCALE_FACTOR;
   if (scaled_y != 0) accum_y = accum_y % SCALE_FACTOR;
   
-  // Limitar deltas a rango de int8_t
   if (scaled_x > 127) scaled_x = 127;
   if (scaled_x < -128) scaled_x = -128;
   if (scaled_y > 127) scaled_y = 127;
@@ -84,7 +76,6 @@ void loop() {
     Serial.print(" dY=");
     Serial.println(scaled_y);
     
-    // Enviar: botones, deltaX, deltaY (con Y invertido para pantalla)
     sendPacket(buttons, (int8_t)scaled_x, (int8_t)(-scaled_y));
     
     prev_buttons = buttons;
