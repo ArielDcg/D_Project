@@ -144,7 +144,7 @@ Este módulo superior gestiona la recepción de paquetes completos de 3 bytes pr
 
 Flujo Arduino-FPGA
 
-![UART ARDUINO - FPGA](<img width="1774" height="4189" alt="Blank diagram (2)" src="https://github.com/user-attachments/assets/b429a505-11bd-4611-87e2-851e54cfc7c7" />)
+<img width="1774" height="4189" alt="Blank diagram (2)" src="https://github.com/user-attachments/assets/b429a505-11bd-4611-87e2-851e54cfc7c7" />
 
 
 Datapath Arduino-FPGA
