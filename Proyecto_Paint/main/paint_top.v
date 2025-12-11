@@ -14,7 +14,7 @@ parameter NUM_COLS = 64;
 parameter NUM_ROWS = 64;
 parameter NUM_PIXELS = NUM_COLS * NUM_ROWS;
 parameter HALF_SCREEN = NUM_PIXELS / 2;
-parameter DELAY = 2;
+parameter DELAY = 1;
 
 wire       btn_left, btn_right, btn_middle;
 wire [7:0] uart_delta_x, uart_delta_y;
@@ -57,7 +57,7 @@ always @(posedge clk) begin
   end
 end
 
-mouse_rx #(.CLK_FREQ(50000000), .BAUD(9600)) uart0 (
+mouse_rx #(.CLK_FREQ(50000000), .BAUD(115200)) uart0 (
   .clk(clk), .rst_n(~rst), .rx_pin(uart_rx),
   .btn_left(btn_left), .btn_right(btn_right), .btn_middle(btn_middle),
   .delta_x(uart_delta_x), .delta_y(uart_delta_y), .data_valid(data_valid)
@@ -92,9 +92,10 @@ always @(posedge clk) begin
   end
 end
 
-ctrl_paint #(.X_MAX(63), .Y_MAX(63), .NUM_COLS(64), .HALF_ROWS(32), .CURSOR_COLOR(12'h000), .PAINT_COLOR(12'hF00)) paint0 (
+ctrl_paint #(.X_MAX(63), .Y_MAX(63), .NUM_COLS(64), .HALF_ROWS(32), .CURSOR_COLOR(12'h000)) paint0 (
   .clk(clk), .reset(rst),
-  .PS2_Xdata(pos_x), .PS2_Ydata(pos_y), .btn_left(btn_left),
+  .PS2_Xdata(pos_x), .PS2_Ydata(pos_y),
+  .btn_left(btn_left), .btn_right(btn_right), .btn_middle(btn_middle),
   .b_rdata0(b_rdata0), .b_rdata1(b_rdata1),
   .wr0(wr0), .wr1(wr1), .wdata(wdata), .address(m2s_address),
   .paint_permanent(paint_permanent)

@@ -27,4 +27,4 @@ Envía 3 bytes por cada movimiento o cambio de botón:
 - Byte 1: Delta X
 - Byte 2: Delta Y
 
-Velocidad: 9600 baud
+Velocidad: 115200 baud

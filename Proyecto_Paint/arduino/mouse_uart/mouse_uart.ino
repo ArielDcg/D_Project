@@ -5,8 +5,8 @@
 #define CLOCK_PIN 6
 #define FPGA_RX_PIN 8
 #define FPGA_TX_PIN 7
-#define FPGA_BAUD 9600
-#define SCALE_FACTOR 3
+#define FPGA_BAUD 115200
+#define SCALE_FACTOR 9
 
 #define SYNC_BYTE 0xAA
 
@@ -19,7 +19,7 @@ int accum_x = 0;
 int accum_y = 0;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   fpgaSerial.begin(FPGA_BAUD);
   mouse.initialize();
   Serial.println("Mouse PS2 inicializado con sync");

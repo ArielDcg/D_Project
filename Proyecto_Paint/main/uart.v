@@ -1,7 +1,7 @@
 module uart(reset, clk, uart_rxd, uart_txd, rx_data, rx_avail, rx_error, rx_ack, tx_data, tx_wr, tx_busy);
 
 parameter freq_hz = 50000000;
-parameter baud = 9600;
+parameter baud = 115200;
 
 input              reset;
 input              clk;

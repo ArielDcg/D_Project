@@ -1,7 +1,7 @@
 module mouse_rx(clk, rst_n, rx_pin, btn_left, btn_right, btn_middle, delta_x, delta_y, data_valid);
 
 parameter CLK_FREQ = 50000000;
-parameter BAUD = 9600;
+parameter BAUD = 115200;
 parameter SYNC_BYTE = 8'hAA;
 
 input         clk;
