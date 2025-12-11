@@ -23,7 +23,7 @@ module ctrl_paint #(
 
     localparam COLOR_RED    = 12'hF00;
     localparam COLOR_GREEN  = 12'h0F0;
-    localparam COLOR_YELLOW = 12'hFF0;
+    localparam COLOR_CYAN   = 12'hFF0;
     localparam COLOR_BLACK  = 12'h000;
     localparam COLOR_WHITE  = 12'hFFF;
 
@@ -36,7 +36,7 @@ module ctrl_paint #(
         case (color_index)
             2'd0: current_paint_color = COLOR_RED;
             2'd1: current_paint_color = COLOR_GREEN;
-            2'd2: current_paint_color = COLOR_YELLOW;
+            2'd2: current_paint_color = COLOR_CYAN;
             2'd3: current_paint_color = COLOR_BLACK;
         endcase
     end
