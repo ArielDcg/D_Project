@@ -165,8 +165,7 @@ Este es el núcleo del proyecto (`PS2_TO_SCREEN`). Recibe las coordenadas del mo
 
 Flujo Lógica de Pantalla
 
-<img width="3585" height="5969" alt="PS2 to screen" src="https://github.com/user-attachments/assets/a206916b-8309-487e-861e-faab426c2459" />
-
+<img width="3487" height="6029" alt="Blank diagram (3)" src="https://github.com/user-attachments/assets/eab873de-a413-4359-9923-86d84ab5dd84" />
 
 Datapath Lógica de Pantalla
 
