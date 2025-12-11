@@ -144,12 +144,17 @@ Este módulo superior gestiona la recepción de paquetes completos de 3 bytes pr
 
 Flujo Arduino-FPGA
 
-![UART ARDUINO - FPGA](https://github.com/user-attachments/assets/03e398d7-dab6-4472-b370-97629a7e0514)
+<img width="1774" height="4189" alt="Blank diagram (2)" src="https://github.com/user-attachments/assets/b429a505-11bd-4611-87e2-851e54cfc7c7" />
 
 
 Datapath Arduino-FPGA
 
 ![Data Path UART ARDUINO](https://github.com/user-attachments/assets/5125b8cf-ae13-48ef-ae73-eadaf5fbb809)
+
+Diagrama de estados Arduino-FPGA
+
+
+<img width="1261" height="542" alt="Diagrama de estados UART-Arduino" src="https://github.com/user-attachments/assets/c2bce290-ab1d-46e0-baa5-612f6f40ef66" />
 
 
 ### 4. Controlador FPGA a Pantalla (Lógica de Pintado)
@@ -160,8 +165,8 @@ Este es el núcleo del proyecto (`PS2_TO_SCREEN`). Recibe las coordenadas del mo
 
 Flujo Lógica de Pantalla
 
+<img width="3585" height="5969" alt="PS2 to screen" src="https://github.com/user-attachments/assets/a206916b-8309-487e-861e-faab426c2459" />
 
-![PS2 to Screen](https://github.com/user-attachments/assets/ebc94cb7-192e-4f99-b74d-2189e058c6c5)
 
 Datapath Lógica de Pantalla
 
