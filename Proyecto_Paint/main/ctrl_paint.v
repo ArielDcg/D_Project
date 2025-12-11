@@ -3,7 +3,7 @@ module ctrl_paint #(
     parameter Y_MAX = 63,
     parameter NUM_COLS = 64,
     parameter HALF_ROWS = 32,
-    parameter CURSOR_COLOR = 12'h000
+    parameter CURSOR_COLOR = 12'hFFF
 )(
     input              clk,
     input              reset,
@@ -21,11 +21,11 @@ module ctrl_paint #(
     output reg         paint_permanent
 );
 
-    localparam COLOR_RED    = 12'hF00;
+    localparam COLOR_RED    = 12'h00F;
     localparam COLOR_GREEN  = 12'h0F0;
     localparam COLOR_CYAN   = 12'hFF0;
-    localparam COLOR_BLACK  = 12'h000;
-    localparam COLOR_WHITE  = 12'hFFF;
+    localparam COLOR_BLACK  = 12'hFFF;
+    localparam COLOR_WHITE  = 12'h000;
 
     reg [1:0] color_index;
     reg btn_middle_prev;

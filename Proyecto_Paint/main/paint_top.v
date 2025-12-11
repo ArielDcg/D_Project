@@ -14,7 +14,7 @@ parameter NUM_COLS = 64;
 parameter NUM_ROWS = 64;
 parameter NUM_PIXELS = NUM_COLS * NUM_ROWS;
 parameter HALF_SCREEN = NUM_PIXELS / 2;
-parameter DELAY = 1;
+parameter DELAY = 25;
 
 wire       btn_left, btn_right, btn_middle;
 wire [7:0] uart_delta_x, uart_delta_y;
