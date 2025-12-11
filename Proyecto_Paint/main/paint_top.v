@@ -92,7 +92,7 @@ always @(posedge clk) begin
   end
 end
 
-ctrl_paint #(.X_MAX(63), .Y_MAX(63), .NUM_COLS(64), .HALF_ROWS(32), .CURSOR_COLOR(12'h000)) paint0 (
+ctrl_paint #(.X_MAX(63), .Y_MAX(63), .NUM_COLS(64), .HALF_ROWS(32), .CURSOR_COLOR(12'hFFF)) paint0 (
   .clk(clk), .reset(rst),
   .PS2_Xdata(pos_x), .PS2_Ydata(pos_y),
   .btn_left(btn_left), .btn_right(btn_right), .btn_middle(btn_middle),

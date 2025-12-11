@@ -1,0 +1,353 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\geometry{margin=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Proyecto Paint - FPGA}
+\lhead{Universidad Nacional de Colombia}
+\cfoot{\thepage}
+
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\title{\textbf{Proyecto Paint - FPGA}}
+\author{
+    Kevin Santiago Aldana Muñoz - 1014979769 \\
+    Emmanuel Bonilla Mitrotti - 1109543118 \\
+    Ariel Giovanni Cardenas Santisteban - 7494038
+}
+\date{Diciembre 2025}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Sistema de pintado implementado en una FPGA Tang Primer 25K, utilizando un mouse PS/2 conectado a un Arduino que envía datos por UART hacia la FPGA, la cual controla un panel LED RGB de 64x64 píxeles.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Introducción}
+
+El proyecto implementa una arquitectura pipeline donde la data del mouse atraviesa tres etapas principales (Adquisición, Procesamiento y Visualización) antes de afectar la pantalla LED.
+
+\subsection{Adquisición de Datos (Arduino)}
+
+\begin{enumerate}
+    \item \textbf{Lectura PS/2:} El firmware del Arduino lee de forma síncrona el mouse PS/2, capturando el estado de los botones y los cambios relativos de posición ($\Delta X$ y $\Delta Y$).
+    \item \textbf{Encapsulación UART:} El Arduino ensambla estos datos en un paquete serial de \textbf{3 bytes} (\texttt{[Botones] [Delta X] [Delta Y]}). Este paquete es transmitido continuamente a 9600 baudios a través del pin TX hacia la FPGA.
+\end{enumerate}
+
+\subsection{Procesamiento Lógico (FPGA)}
+
+La FPGA (Módulo \texttt{paint.v}) maneja dos submódulos críticos que operan en serie:
+
+\begin{itemize}
+    \item \textbf{Receptor de Paquetes UART (\texttt{mouse\_uart\_receiver}):} Este módulo utiliza una FSM para sincronizar la llegada de los 3 bytes del paquete. Solo cuando el tercer byte es recibido, se activa la señal \texttt{data\_valid}, liberando el paquete completo de movimiento a la lógica de pintado.
+    \item \textbf{Lógica de Pintado (\texttt{PS2\_TO\_SCREEN}):} Este es el núcleo del sistema, implementado como una compleja FSM.
+    \begin{itemize}
+        \item \textbf{Movimiento:} La FSM recibe $\Delta X$ y $\Delta Y$ y los suma a las coordenadas absolutas actuales del cursor ($X_{abs}, Y_{abs}$). Realiza verificaciones constantes para asegurar que $0 \le X_{abs} \le 63$ y $0 \le Y_{abs} \le 63$.
+        \item \textbf{Pintado:} Si se detecta un \textbf{Clic Izquierdo}, la FSM calcula la dirección exacta de la memoria y activa la señal de escritura (\texttt{wr}) en la memoria para sobrescribir el píxel con el color de pintado.
+        \item \textbf{Cursor:} El módulo también gestiona la visualización temporal del cursor, alternando entre el color de fondo y un color de cursor para indicar la posición actual.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Visualización (FPGA - Controlador LED)}
+
+Este proceso opera de manera \textbf{independiente y concurrente} a la lógica de pintado:
+
+\begin{itemize}
+    \item \textbf{Refresco Constante:} El \textbf{Controlador LED} (\texttt{panel\_controller.v}) implementa la lógica de barrido (scan) de la matriz. Recorre cíclicamente las 32 (o 64) filas del panel.
+    \item \textbf{Lectura de Memoria:} Por cada ciclo de reloj y para cada fila, el controlador lee el dato de color de la RAM de video y lo desplaza (shift) hacia los \textit{drivers} del panel LED.
+    \item \textbf{Sincronización:} Utiliza las señales \texttt{LATCH} (para transferir los datos desplazados a los \textit{buffers} de salida) y \texttt{OE} (para el control de brillo y evitar el efecto \textit{ghosting}) para mantener la imagen estable y visible, incluso mientras la lógica de pintado está actualizando píxeles individuales.
+\end{itemize}
+
+\newpage
+\section{Conexiones Físicas}
+
+El camino de las conexiones físicas se presenta a continuación:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/conexiones_fisicas.png}
+    \caption{Diagrama de conexiones físicas del sistema}
+    \label{fig:conexiones}
+\end{figure}
+
+\subsection{Conexión PS2 Mouse - Arduino UNO}
+
+Esta sección establece la interfaz de comunicación bidireccional entre el mouse PS/2 (utilizando el protocolo PS/2) y el microcontrolador Arduino. El Arduino leerá el movimiento y el estado de los botones del mouse. Para realizar la conexión del Mouse PS2 al Arduino UNO se utilizó el proyecto \href{https://github.com/rucek/arduino-ps2-mouse}{rucek/arduino-ps2-mouse}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        \textbf{PS2 Pin} & \textbf{Arduino Pin} \\
+        \midrule
+        DATA & 5 \\
+        CLK & 6 \\
+        VCC & 5V \\
+        GND & GND \\
+        \bottomrule
+    \end{tabular}
+    \caption{Conexión PS2 Mouse a Arduino UNO}
+    \label{tab:ps2_arduino}
+\end{table}
+
+\subsection{Conexión UART: Arduino UNO (TX) a FPGA (RX)}
+
+Esta sección define el canal de comunicación serial unidireccional por UART, utilizado para enviar los datos procesados del mouse (movimiento y botones) desde el Arduino (Transmisor) hacia el módulo UART Receptor implementado en la FPGA.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{@{}cc@{}}
+        \toprule
+        \textbf{Arduino UNO TX Pin} & \textbf{FPGA RX Pin} \\
+        \midrule
+        7 & B2 \\
+        GND & GND \\
+        \bottomrule
+    \end{tabular}
+    \caption{Conexión UART Arduino a FPGA}
+    \label{tab:uart}
+\end{table}
+
+\subsection{Conexión: FPGA a Panel LED}
+
+Esta es la interfaz de hardware donde la FPGA actúa como el controlador de video, generando las señales de tiempo y datos para mostrar la imagen de 64x64 píxeles y el cursor del Paint.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{@{}ccl@{}}
+        \toprule
+        \textbf{FPGA Pin} & \textbf{Panel LED Pin} & \textbf{Descripción} \\
+        \midrule
+        G10 & R0 & Fila 0 - Rojo \\
+        G11 & G0 & Fila 0 - Verde \\
+        D10 & B0 & Fila 0 - Azul \\
+        B10 & R1 & Fila 1 - Rojo \\
+        B11 & G1 & Fila 1 - Verde \\
+        C10 & B1 & Fila 1 - Azul \\
+        A10 & A & Dirección Fila A (Fila Select) \\
+        A11 & B & Dirección Fila B (Fila Select) \\
+        E10 & C & Dirección Fila C (Fila Select) \\
+        E11 & D & Dirección Fila D (Fila Select) \\
+        C11 & E & Dirección Fila E (Fila Select) \\
+        L11 & CLK & Señal de Reloj (Shift Clock) \\
+        K11 & LATCH & Señal Latch (Strobe) \\
+        K5 & OE & Output Enable (Control de Brillo) \\
+        GND & GND & Tierra \\
+        GND & N & (GND o Pin sin uso) \\
+        \bottomrule
+    \end{tabular}
+    \caption{Conexión FPGA a Panel LED}
+    \label{tab:fpga_led}
+\end{table}
+
+\newpage
+\section{Estructura del Proyecto}
+
+Esta sección detalla el funcionamiento interno de los módulos lógicos y protocolos utilizados en el proyecto.
+
+\begin{verbatim}
+paint_top
+├── mouse_rx       # Recibe 3 bytes del mouse por UART
+│   └── uart       # Módulo UART base
+├── ctrl_paint     # FSM de pintado (cursor + pintura)
+├── memory         # Framebuffer dual-port
+└── ctrl_panel     # FSM del panel LED
+    ├── count      # Contadores (fila, columna, delay, index)
+    ├── lsr_led    # Registro de desplazamiento para delay
+    ├── comp_4k    # Comparador de igualdad
+    └── mux        # Multiplexor de bits RGB
+\end{verbatim}
+
+\subsection{Protocolo PS/2 (Mouse)}
+
+El protocolo PS/2 utiliza dos líneas (Clock y Data) para la transmisión serial síncrona de datos desde el dispositivo (Mouse) hacia el host (Arduino). El host lee los datos en el flanco de bajada del reloj.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/protocolo_ps2.png}
+    \caption{Diagrama de flujo del funcionamiento del protocolo PS/2}
+    \label{fig:ps2_protocol}
+\end{figure}
+
+\subsection{Protocolo UART (Módulo Genérico)}
+
+El módulo UART en la FPGA se encarga de deserializar los datos entrantes. Utiliza un sobremuestreo (16 veces la tasa de baudios) para detectar el bit de inicio y muestrear los datos en el centro del periodo de cada bit, garantizando la integridad de la recepción.
+
+\begin{itemize}
+    \item \textbf{Diagrama de Flujo:} Muestra la máquina de estados de recepción (Detección de Start Bit $\rightarrow$ Muestreo de Bits 0-7 $\rightarrow$ Stop Bit).
+    \item \textbf{Camino de Datos:} Ilustra los registros de desplazamiento y contadores utilizados.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/protocolo_uart.png}
+    \caption{Diagrama de Flujo UART}
+    \label{fig:uart_flow}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/datapath_uart.png}
+    \caption{Camino de Datos UART}
+    \label{fig:uart_datapath}
+\end{figure}
+
+\subsection{Interfaz UART: Arduino a FPGA}
+
+Este módulo superior gestiona la recepción de paquetes completos de 3 bytes provenientes del Arduino. La máquina de estados asegura que los datos se interpreten en el orden correcto: \texttt{[Byte 1: Botones]} $\rightarrow$ \texttt{[Byte 2: Movimiento X]} $\rightarrow$ \texttt{[Byte 3: Movimiento Y]}.
+
+\begin{itemize}
+    \item \textbf{Diagrama de Flujo:} Describe la FSM que espera secuencialmente los 3 bytes y valida la integridad del paquete.
+    \item \textbf{Camino de Datos:} Muestra el buffer de 3 posiciones y cómo se asignan a las señales de salida (\texttt{btn}, \texttt{delta\_x}, \texttt{delta\_y}).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{img/flujo_arduino_fpga.png}
+    \caption{Flujo Arduino-FPGA}
+    \label{fig:arduino_fpga_flow}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/datapath_arduino_fpga.png}
+    \caption{Datapath Arduino-FPGA}
+    \label{fig:arduino_fpga_datapath}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/diagrama_estados_uart_arduino.png}
+    \caption{Diagrama de estados Arduino-FPGA}
+    \label{fig:arduino_fpga_fsm}
+\end{figure}
+
+\subsection{Controlador FPGA a Pantalla (Lógica de Pintado)}
+
+Este es el núcleo del proyecto (\texttt{PS2\_TO\_SCREEN}). Recibe las coordenadas del mouse, calcula la posición de memoria correspondiente en la matriz de 64x64, y actualiza el color del píxel si se detecta un clic (Pintar). También maneja la lógica de lectura de memoria para refrescar el panel LED continuamente.
+
+\begin{itemize}
+    \item \textbf{Diagrama de Flujo:} Detalla el algoritmo para limitar las coordenadas (0-63), calcular la dirección de memoria (\texttt{Address = Y*64 + X}) y la lógica de escritura/lectura.
+    \item \textbf{Camino de Datos:} Muestra los comparadores (para límites de pantalla), sumadores (para movimiento relativo) y la interfaz con la memoria de video.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{img/flujo_logica_pantalla.png}
+    \caption{Flujo Lógica de Pantalla}
+    \label{fig:screen_flow}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/datapath_ps2_to_screen.png}
+    \caption{Datapath Lógica de Pantalla}
+    \label{fig:screen_datapath}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{img/diagrama_estados_ps2_to_screen.png}
+    \caption{Diagrama de estados Lógica de Pantalla}
+    \label{fig:screen_fsm}
+\end{figure}
+
+\subsection{Conexión FPGA a Pantalla (Lectura de Memoria)}
+
+Este módulo permite que la pantalla lea la memoria ya modificada por la lógica de pintado, y muestra la imagen en el panel LED.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/flujo_lectura_memoria.png}
+    \caption{Diagrama de Flujo - Lectura de Memoria}
+    \label{fig:mem_flow}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/datapath_lectura_memoria.png}
+    \caption{Datapath - Lectura de Memoria}
+    \label{fig:mem_datapath}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/diagrama_estados_lectura_memoria.png}
+    \caption{Diagrama de estados - Lectura de Memoria}
+    \label{fig:mem_fsm}
+\end{figure}
+
+\newpage
+\section{Guía de Uso}
+
+Para desplegar y usar el proyecto, se deben seguir estos pasos:
+
+\subsection{Realizar Conexiones Físicas}
+
+\begin{enumerate}
+    \item Conectar el Mouse PS/2 al Arduino (usando los pines \textbf{CLK=6} y \textbf{DATA=5}).
+    \item Conectar el Arduino \textbf{TX} (\textbf{pin 7}) al UART \textbf{RX} de la FPGA (\textbf{pin B2}).
+    \item Conectar el \textbf{Panel LED} a los pines de la FPGA según se detalla en la sección \textbf{Conexión: FPGA a Panel LED}.
+\end{enumerate}
+
+\subsection{Programar el Arduino (Firmware)}
+
+Cargar el sketch ubicado en \texttt{arduino/mouse\_uart.ino} en el Arduino UNO. Este firmware se encarga de leer el mouse PS/2 y encapsular los datos de movimiento/clic en paquetes de 3 bytes que se envían por UART.
+
+\subsection{Programar la FPGA (Hardware Lógico)}
+
+\begin{enumerate}
+    \item Sintetizar el diseño Verilog con los archivos de la carpeta \texttt{main/} (el módulo de nivel superior es \texttt{paint.v}). Asegurarse de que los archivos de \textit{constraints} estén configurados correctamente para la placa Tang Primer 25K.
+    \item Cargar el \textit{bitstream} resultante en la FPGA.
+\end{enumerate}
+
+\subsection{Operación del Sistema}
+
+\begin{enumerate}
+    \item Al encender el sistema, el panel LED mostrará la imagen de fondo inicial cargada desde la memoria de la FPGA.
+    \item Mover el mouse para desplazar el cursor sobre la pantalla.
+    \item Presionar el \textbf{Clic Izquierdo} del mouse para pintar o cambiar el color del píxel actual.
+    \item El sistema mostrará los trazos en tiempo real gracias a la alta velocidad de refresco del controlador LED.
+\end{enumerate}
+
+\section{Funcionamiento Resumido}
+
+\begin{itemize}
+    \item El cursor se mueve siguiendo el mouse.
+    \item Click izquierdo: pinta en el color seleccionado.
+    \item Click derecho: borra (pinta en blanco).
+    \item Click central: cambia el color de pintado.
+    \item El panel muestra una imagen de fondo cargada desde archivos \texttt{.hex}.
+\end{itemize}
+
+\end{document}
